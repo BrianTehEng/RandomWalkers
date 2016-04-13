@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+<canvas id="c" width="800" height="800"></canvas>
+
+
+<script>
+var c = document.getElementById("c");
+var ctx = c.getContext("2d");
+var font_size = 15;
+var col = c.width/font_size; 
+
+var x_pos=Math.floor(col/2);
+var y_pos=Math.floor(col/2);
+
+
+
+function walker(symbol,x,y,font,columns){
+    
+    this.symbol=symbol;
+    this.x=x;
+    this.y=y;
+    this.font=font;
+    this.columns=columns;
+    
+}
+
+
+walker.prototype.updatePos=function(){
+    
+        if(Math.random()>0.5 && this.x<this.columns){
+           this.x++;
+            
+        }else{
+            if(this.x>0)
+            this.x--;
+        }
+        
+        if(Math.random()>0.5 && this.y<this.columns){
+           this.y++;
+            
+        }else{
+            if(this.y>0)
+            this.y--;
+        }
+    
+};
+
+var walker1=new walker("$",x_pos,y_pos,"#0F0",col);
+var walker2=new walker("&",x_pos,y_pos,"#ff0000",col);
+var walker3=new walker("@",x_pos,y_pos,"#00F",col);
+var walker4=new walker("#",x_pos,y_pos,"#FFF",col);
+
+//drawing the characters
+function draw()
+{
+	//Black BG for the canvas
+	//translucent BG to show trail
+	ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+	ctx.fillRect(0, 0, c.width, c.height);
+	
+	ctx.font = font_size + "px arial";
+        
+        walker1.updatePos();
+        walker2.updatePos();
+        walker3.updatePos();
+        walker4.updatePos();
+        
+        ctx.fillStyle =walker1.font;             
+        ctx.fillText(walker1.symbol, walker1.x*font_size, walker1.y*font_size);
+        
+        ctx.fillStyle =walker2.font;             
+        ctx.fillText(walker2.symbol, walker2.x*font_size, walker2.y*font_size);
+        
+        ctx.fillStyle =walker3.font;             
+        ctx.fillText(walker3.symbol, walker3.x*font_size, walker3.y*font_size);
+        
+        ctx.fillStyle =walker4.font;             
+        ctx.fillText(walker4.symbol, walker4.x*font_size, walker4.y*font_size);
+	                
+}
+
+setInterval(draw, 150);
+
+
+  
+</script>
+</html>
